@@ -5,6 +5,14 @@ module Sprockets
   class CommonJS < Tilt::Template
     self.default_mime_type = 'application/javascript'
 
+    WRAPPER = <<-JAVASCRIPT.gsub(/\s+/, '')
+    %s.define({
+      %s: function (exports, require, module) {
+        %s
+      }
+    });
+    JAVASCRIPT
+
     def self.default_namespace
       'this.require'
     end
@@ -16,20 +24,17 @@ module Sprockets
     attr_reader :namespace
 
     def evaluate(scope, locals, &block)
-      if File.extname(scope.logical_path) == '.module'
-        path = scope.logical_path.chomp('.module').inspect
-
+      if wrap?(scope)
         scope.require_asset 'sprockets/commonjs'
-
-        code = ''
-        code << "#{namespace}.define({#{path}:"
-        code << 'function(exports, require, module){'
-        code << data
-        code << ";}});\n"
-        code
+        path = scope.logical_path.chomp('.module').inspect
+        WRAPPER % [namespace, path, data]
       else
         data
       end
+    end
+
+    def wrap?(scope)
+      File.extname(scope.logical_path) == '.module'
     end
   end
 
