@@ -4,9 +4,9 @@ $:.push File.expand_path("../lib", __FILE__)
 Gem::Specification.new do |s|
   s.name        = "sprockets-commonjs"
   s.version     = '0.0.5'
-  s.authors     = ["Alex MacCaw"]
-  s.email       = ["info@eribium.org"]
-  s.homepage    = ""
+  s.authors     = ['Alex MacCaw', 'Michael Jackson', 'Jordan Harband']
+  s.email       = ['info@eribium.org', 'mjackson@twitter.com', 'ljharb@gmail.com']
+  s.homepage    = ''
   s.summary     = %q{Adds CommonJS support to Sprockets}
   s.description = s.summary
 
