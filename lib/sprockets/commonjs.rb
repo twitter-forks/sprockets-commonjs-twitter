@@ -17,6 +17,10 @@ module Sprockets
       'this.require'
     end
 
+    def self.template_path
+      File.expand_path('../..', __FILE__)
+    end
+
     def self.wrap(path, data, namespace=default_namespace)
       WRAPPER % [namespace, path, data]
     end
@@ -41,9 +45,6 @@ module Sprockets
       File.extname(scope.logical_path) == '.module'
     end
   end
-
-  register_postprocessor 'application/javascript', CommonJSTemplate
-  append_path File.expand_path('../..', __FILE__)
 
   # This class can be used to wrap the contents of a file in a
   # string that is exported from a CommonJS module.

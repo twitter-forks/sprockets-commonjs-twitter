@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "sprockets-commonjs-twitter"
-  s.version     = '0.1.0'
+  s.version     = '0.2.0'
   s.authors     = ['Michael Jackson']
   s.email       = ['mjackson@twitter.com']
   s.homepage    = ''
@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
 
   # specify any dependencies here; for example:
   # s.add_development_dependency "rspec"
-  s.add_runtime_dependency "sprockets", "~>2.4.0"
+  s.add_runtime_dependency "sprockets", "~>2.0"
   s.add_runtime_dependency 'json'
 end
