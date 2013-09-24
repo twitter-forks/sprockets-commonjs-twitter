@@ -2,12 +2,12 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
-  s.name        = "sprockets-commonjs-twitter"
-  s.version     = '0.1.0'
-  s.authors     = ['Michael Jackson']
-  s.email       = ['mjackson@twitter.com']
-  s.homepage    = ''
-  s.summary     = 'Adds CommonJS support to Sprockets'
+  s.name        = "sprockets-commonjs"
+  s.version     = '0.0.5'
+  s.authors     = ["Alex MacCaw"]
+  s.email       = ["info@eribium.org"]
+  s.homepage    = ""
+  s.summary     = %q{Adds CommonJS support to Sprockets}
   s.description = s.summary
 
   s.files         = `git ls-files`.split("\n")
@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
 
   # specify any dependencies here; for example:
   # s.add_development_dependency "rspec"
-  s.add_runtime_dependency "sprockets", "~>2.4.0"
-  s.add_runtime_dependency 'json'
+  s.add_runtime_dependency "sprockets",     "~> 2.1"
+  s.add_development_dependency 'appraisal', '~> 0.5.1'
 end

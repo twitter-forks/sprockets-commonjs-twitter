@@ -2,73 +2,48 @@ require 'sprockets'
 require 'tilt'
 
 module Sprockets
-  class CommonJSTemplate < Tilt::Template
+  class CommonJS < Tilt::Template
+
+    WRAPPER = '%s.define({"%s":' +
+              'function(exports, require, module){' +
+              '%s' +
+              ";}});\n"
+
+    class << self
+      attr_accessor :default_namespace
+    end
+
     self.default_mime_type = 'application/javascript'
+    self.default_namespace = 'this.require'
 
-    WRAPPER = <<-JAVASCRIPT.gsub(/\s+/, '')
-    %s.define({
-      %s: function (exports, require, module) {
-        %s
-      }
-    });
-    JAVASCRIPT
-
-    def self.default_namespace
-      'this.require'
-    end
-
-    def self.wrap(path, data, namespace=default_namespace)
-      WRAPPER % [namespace, path, data]
-    end
+    protected
 
     def prepare
       @namespace = self.class.default_namespace
     end
 
-    attr_reader :namespace
-
     def evaluate(scope, locals, &block)
-      if wrap?(scope)
+      if commonjs_module?(scope)
         scope.require_asset 'sprockets/commonjs'
-        path = scope.logical_path.chomp('.module').inspect
-        self.class.wrap(path, data, namespace)
+        WRAPPER % [ namespace, commonjs_module_name(scope), data ]
       else
         data
       end
     end
 
-    def wrap?(scope)
-      File.extname(scope.logical_path) == '.module'
-    end
-  end
+    private
 
-  register_postprocessor 'application/javascript', CommonJSTemplate
-  append_path File.expand_path('../..', __FILE__)
+    attr_reader :namespace
 
-  # This class can be used to wrap the contents of a file in a
-  # string that is exported from a CommonJS module.
-  #
-  # Add it to your Sprockets environment:
-  #
-  #   sprockets_env.register_engine '.mustache', Sprockets::CommonJSExportsTemplate
-  #
-  # Require a file with the appropriate extension:
-  #
-  #   //= require my_template
-  #
-  # Then, in your JavaScript:
-  #
-  #   var template = require('my_template');
-  class CommonJSExportsTemplate < CommonJSTemplate
-    self.default_mime_type = 'application/javascript'
-
-    def evaluate(scope, locals, &block)
-      @data = "module.exports = #{data.to_json}"
-      super
+    def commonjs_module?(scope)
+      scope.pathname.basename.to_s.include?('.module')
     end
 
-    def wrap?(scope)
-      true
+    def commonjs_module_name(scope)
+      scope.logical_path.sub(/\.module$/, '')
     end
+
   end
 end
+
+require 'sprockets/commonjs/engine'
