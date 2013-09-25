@@ -1,0 +1,1 @@
+this.require.define({"template":function(exports, require, module){module.exports = "<section>\n  a string!: {{str}}\n  some raw HTML, scary! {{{html}}}\n  a hash: {{#hash}}\n    property: {{property}}\n  {{/hash}}\n</section>\n";}});
