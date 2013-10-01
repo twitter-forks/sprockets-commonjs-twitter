@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "sprockets-commonjs-twitter"
-  s.version     = '0.2.0'
+  s.version     = '0.2.0.0.1'
   s.authors     = ['Michael Jackson', 'Alex MacCaw', 'Jordan Harband']
   s.email       = ['mjackson@twitter.com', 'info@eribium.org', 'ljharb@gmail.com']
   s.homepage    = ''
