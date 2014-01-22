@@ -4,15 +4,15 @@ require 'sprockets-commonjs'
 
 class SprocketsCommonjsTest < Test::Unit::TestCase
 
-  TEST_DIR = File.expand_path('..', __FILE__)
-  LIB_DIR  = File.expand_path('../lib/assets/javascripts', TEST_DIR)
+  FIXTURE_DIR = File.expand_path('../fixtures', __FILE__)
+  LIB_DIR  = File.expand_path('../../lib/assets/javascripts', __FILE__)
 
   attr_reader :output
 
   def setup
     env = Sprockets::Environment.new
     env.register_postprocessor 'application/javascript', Sprockets::CommonJS
-    env.append_path TEST_DIR
+    env.append_path FIXTURE_DIR
     env.append_path LIB_DIR
     outfile = Tempfile.new('sprockets-output')
     env['source.js'].write_to outfile.path
@@ -42,6 +42,10 @@ class SprocketsCommonjsTest < Test::Unit::TestCase
 
   def test_default_mime_type
     assert_equal 'application/javascript', Sprockets::CommonJS.default_mime_type
+  end
+
+  def test_module_with_erb_evaluation
+    assert_match /module\.exports = "Baz2!"/, @output
   end
 
 end

@@ -25,6 +25,9 @@ Sprockets will then wrap up the JS library when it's requested, with the followi
 
 One caveat to the approach this library takes, is that dependencies loaded through `require()` will not be added to the dependency graph. This library will not parse the AST tree for require calls. This decision has been made for a variety of reasons, but it does mean you need to require files through both CommonJS and Sprockets.
 
+The library also supports processing `.mustache` files and for either `.module.js` and `.mustache` it will also accept `.erb` in addition, in case ERB pre-processing is desired.
+(This may be handy for using `asset_path` in the Rails asset pipeline.)
+
 ## Usage
 
 1. Add `gem 'sprockets-commonjs'` to your `Gemfile`

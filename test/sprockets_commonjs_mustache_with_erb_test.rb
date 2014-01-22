@@ -14,8 +14,8 @@ class SprocketsCommonjsMustacheTest < Test::Unit::TestCase
     env.register_engine '.mustache', Sprockets::CommonJS::Mustache
     env.append_path FIXTURE_DIR
     env.append_path LIB_DIR
-    outfile = Tempfile.new('sprockets-mustache-output')
-    env['source_mustache.js'].write_to outfile.path
+    outfile = Tempfile.new('sprockets-mustache-output-with-erb')
+    env['source_mustache_with_erb.js'].write_to outfile.path
     @output = File.read outfile.path
   end
 
@@ -24,12 +24,12 @@ class SprocketsCommonjsMustacheTest < Test::Unit::TestCase
   end
 
   def test_modularizes_mustache
-    assert_match %r[this.require.define\(\{\"template\":function\(exports, require, module\)], @output
+    assert_match %r[this.require.define\(\{\"template2\":function\(exports, require, module\)], @output
     assert_match %r[scary!], @output
   end
 
   def test_omits_extra_semicolon
-    expected = File.read(Pathname.new(FIXTURE_DIR) + 'expected_template.mustache.js')
+    expected = File.read(Pathname.new(FIXTURE_DIR) + 'expected_template_with_erb.mustache.js')
     end_of_output = @output[-expected.length, expected.length]
     assert_equal expected, end_of_output
   end
