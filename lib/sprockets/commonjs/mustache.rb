@@ -9,7 +9,7 @@ module Sprockets
       private
 
       def commonjs_module?(scope)
-        scope.pathname.basename.to_s =~ /\.mustache\Z/
+        scope.pathname.basename.to_s =~ /\.mustache/
       end
 
       def wrap(scope, data)
